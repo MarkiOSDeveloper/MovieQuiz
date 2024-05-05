@@ -151,7 +151,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderColor = isCorrect ? UIColor.yp1Green.cgColor : UIColor.yp1Red.cgColor // 3
         
         // запускаем задачу через 1 секунду c помощью диспетчера задач
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in //Слабая ссылка на self
+            guard let self = self else {return} // Разворачиваем слабую Ссылку
            // код, который мы хотим вызвать через 1 секунду
 
            self.imageView.layer.borderColor = UIColor.clear.cgColor
@@ -185,7 +186,8 @@ final class MovieQuizViewController: UIViewController {
             message: result.text,
             preferredStyle: .alert)
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in //Слабая ссылка на self
+            guard let self = self else { return } //Разворачиваем слабую ссылку
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             
